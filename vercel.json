@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "urine_strip_project/settings.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    { "handle": "filesystem" },
+    {
+      "src": "/upload/",
+      "dest": "urine_strip_project/api/views.py"
+    },
+    { "src": "/(.*)", "dest": "urine_strip_project/settings.py" }
+  ]
+}

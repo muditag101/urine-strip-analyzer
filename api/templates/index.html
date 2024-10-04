@@ -1,0 +1,93 @@
+<!-- api/templates/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Urine Strip Analyzer</title>
+</head>
+<style>
+
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    color: #333;
+}
+
+form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+input[type="file"] {
+    display: block;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+pre {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+</style>
+<body>
+    <h1>Upload Urine Strip Image</h1>
+    <form id="upload-form" enctype="multipart/form-data">
+        <input type="file" id="image" name="image">
+        <button type="submit">Upload</button>
+    </form>
+    <pre id="results"></pre>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#upload-form').on('submit', function(event) {
+                event.preventDefault();
+                var formData = new FormData(this);
+                $.ajax({
+                    url: '/upload/',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(data) {
+                        $('#results').html(JSON.stringify(data, null, 2));
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $('#results').html('Error: ' + errorThrown);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
